@@ -14,6 +14,12 @@
     --primary-dark:#A96EFF;
 }
 
+
+
+/* wow */
+
+
+
 body{
     min-height:100vh;
     display:flex;
