@@ -1,3 +1,51 @@
+
+<?php
+session_start();
+include "db.php";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    // user খোঁজা
+    $stmt = $conn->prepare("SELECT id, name, email, password FROM users WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows === 1) {
+
+        $user = $result->fetch_assoc();
+
+        // password verify
+        if (password_verify($password, $user['password'])) {
+
+            // session set
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['user_name'] = $user['name'];
+            $_SESSION['user_email'] = $user['email'];
+
+            // redirect to home page
+            header("Location: index.php");
+            exit();
+
+        } else {
+            $error = "❌ Wrong password!";
+        }
+
+    } else {
+        $error = "❌ User not found!";
+    }
+
+    $stmt->close();
+    $conn->close();
+}
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,10 +61,6 @@
     --primary:#C395FF;
     --primary-dark:#A96EFF;
 }
-
-
-
-/* wow */
 
 
 
@@ -173,6 +217,12 @@ body::after{
                 Forgot Password?
             </a>
         </div>
+
+        <?php if(isset($error)) { ?>
+    <div class="alert alert-danger text-center">
+        <?php echo $error; ?>
+    </div>
+<?php } ?>
 
         <button class="btn btn-login w-100">
             <i class="bi bi-box-arrow-in-right"></i>

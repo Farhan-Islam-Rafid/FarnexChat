@@ -1,3 +1,13 @@
+
+<?php
+session_start();
+
+?>
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,9 +16,6 @@
 <title>FarnexChat - College Chat Platform</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-
-
-
 
 
 <style>
@@ -240,25 +247,52 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg fixed-top">
   <div class="container">
+
     <a class="navbar-brand" href="#">
       <i class="bi bi-chat-heart-fill"></i> FarnexChat
     </a>
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navMenu">
+
       <ul class="navbar-nav mx-auto gap-1">
-        <li class="nav-item"><a class="nav-link active" href="#"><i class="bi bi-house-fill me-1"></i>Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-people-fill me-1"></i>Study Groups</a></li>
-        <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-calendar-event-fill me-1"></i>Campus Events</a></li>
-        <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-book-fill me-1"></i>Resources</a></li>
-        <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-megaphone-fill me-1"></i>Notice Board</a></li>
-        <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-info-circle-fill me-1"></i>About</a></li>
+        <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Study Groups</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Events</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Resources</a></li>
       </ul>
+
       <div class="d-flex gap-2 mt-2 mt-lg-0">
-        <a href="login.php" class="nav-link nav-btn-login"><i class="bi bi-box-arrow-in-right me-1"></i>Login</a>
-        <a href="register.php" class="nav-link nav-btn-register"><i class="bi bi-person-plus-fill me-1"></i>Register</a>
+
+        <?php if(isset($_SESSION['user_id'])) { ?>
+
+          <!-- AFTER LOGIN -->
+          <span class="nav-link text-dark fw-bold">
+             <?php echo $_SESSION['user_name']; ?>
+          </span>
+
+          <a href="logout.php" class="nav-link nav-btn-login">
+            <i class="bi bi-box-arrow-right me-1"></i>Logout
+          </a>
+
+        <?php } else { ?>
+
+          <!-- BEFORE LOGIN -->
+          <a href="login.php" class="nav-link nav-btn-login">
+            <i class="bi bi-box-arrow-in-right me-1"></i>Login
+          </a>
+
+          <a href="register.php" class="nav-link nav-btn-register">
+            <i class="bi bi-person-plus-fill me-1"></i>Register
+          </a>
+
+        <?php } ?>
+
       </div>
+
     </div>
   </div>
 </nav>
